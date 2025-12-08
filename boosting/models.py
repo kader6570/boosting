@@ -22,8 +22,8 @@ class Inscription(models.Model):
         max_length=60,
         validators=[compte],
         unique=True,
-        required=False,
-        blank=True
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
