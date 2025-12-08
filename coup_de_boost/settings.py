@@ -29,6 +29,8 @@ DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = ['https://boosting.up.railway.app']
+
 
 # Application definition
 
