@@ -6,10 +6,7 @@ numero_validator = RegexValidator(
     regex=r'^(\+226|\+225)?(0|5|6|7)\d{7}$',
     message="Le numéro est invalide, veuillez entrer un numéro valide"
 )
-compte = RegexValidator(
-    regex=r'^@[\w.]{1,23}\w$',
-    message="Nom d'utilisateur non-valide. Il faut commencer par '@' et votre nom d'utilisateur après!"
-)
+
 
 class Inscription(models.Model):
     numero = models.CharField(
@@ -20,7 +17,6 @@ class Inscription(models.Model):
     tiktok_username = models.CharField(
         verbose_name="Compte tiktok",
         max_length=60,
-        validators=[compte],
         null=True,
         blank=True,
     )
