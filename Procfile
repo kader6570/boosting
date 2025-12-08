@@ -1,1 +1,1 @@
-web: gunicorn a_core.wsgi
+web: gunicorn coup_de_boost.wsgi
