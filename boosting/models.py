@@ -12,7 +12,8 @@ class Inscription(models.Model):
     numero = models.CharField(
         verbose_name="Numero WhatsApp",
         max_length=14,
-        validators=[numero_validator]
+        validators=[numero_validator],
+        unique=True
     )
     tiktok_username = models.CharField(
         verbose_name="Compte tiktok",
