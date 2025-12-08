@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejoignez la Communauté Booster | Inscription</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(180deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+        }
+        
+        .card-glow {
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+        }
+        
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.3;
+        }
+        
+        /* Animation glow pour les stats */
+        @keyframes stat-pulse {
+            0%, 100% {
+                text-shadow: 0 0 10px currentColor;
+                opacity: 1;
+            }
+            50% {
+                text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+                opacity: 0.9;
+            }
+        }
+        
+        .stat-glow div:first-child {
+            animation: stat-pulse 3s ease-in-out infinite;
+        }
+        
+        /* Animation glow pour le bouton */
+        @keyframes button-pulse {
+            0%, 100% {
+                box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4), 0 0 40px rgba(236, 72, 153, 0.2);
+            }
+            50% {
+                box-shadow: 0 4px 30px rgba(99, 102, 241, 0.6), 0 0 60px rgba(236, 72, 153, 0.4);
+            }
+        }
+        
+        .button-glow {
+            animation: button-pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="p-4 py-8">
+
+    <div class="max-w-md mx-auto">
+        
+        <!-- En-tête avec icône -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-500 to-pink-500 mb-4 shadow-lg">
+<svg class="w-11 h-11 text-white" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+</svg>
+            </div>
+            <h1 class="text-3xl font-bold text-white mb-2">
+                Communauté Booster
+            </h1>
+            <p class="text-gray-400 text-base">
+                La première communauté de croissance TikTok au Burkina Faso
+            </p>
+        </div>
+
+        <!-- Carte principale -->
+        <div class="bg-gray-900/80 backdrop-blur-xl rounded-3xl p-6 card-glow gradient-border mb-6">
+            
+            <!-- Statistiques rapides -->
+            <div class="grid grid-cols-3 gap-3 mb-6 pb-6 border-b border-gray-800">
+                <div class="text-center stat-glow">
+                    <div class="text-2xl font-bold text-indigo-400 mb-1">500+</div>
+                    <div class="text-xs text-gray-500">Membres</div>
+                </div>
+                <div class="text-center stat-glow">
+                    <div class="text-2xl font-bold text-pink-400 mb-1">10K+</div>
+                    <div class="text-xs text-gray-500">Likes/jour</div>
+                </div>
+                <div class="text-center stat-glow">
+                    <div class="text-2xl font-bold text-purple-400 mb-1">100%</div>
+                    <div class="text-xs text-gray-500">Gratuit</div>
+                </div>
+            </div>
+
+            <form method="post" class="space-y-5">
+                {% csrf_token %}
+                
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'success' %}
+                            <div class="p-3 bg-green-500/10 text-green-400 rounded-2xl text-sm font-medium border border-green-500/20" role="alert">
+                                {{ message }}
+                            </div>
+                        {% elif message.tags == 'error' %}
+                            <div class="p-3 bg-red-500/10 text-red-400 rounded-2xl text-sm font-medium border border-red-500/20" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                
+                {% if form.errors %}
+                    <div class="p-3 bg-red-500/10 text-red-400 rounded-2xl text-sm font-medium border border-red-500/20" role="alert">
+                        <p class="font-semibold mb-2">Erreurs dans le formulaire :</p>
+                        <ul class="list-disc list-inside space-y-1 text-xs">
+                            {% for field in form %}
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        <li>{{ field.label }} : {{ error }}</li>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if form.non_field_errors %}
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <!-- Champ WhatsApp -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-300 pl-1">
+                        Numéro WhatsApp
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none z-10">
+                            <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                            </svg>
+                        </div>
+                        {{ form.numero }}
+                    </div>
+                </div>
+                
+                <!-- Champ TikTok -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-300 pl-1">
+                        Compte TikTok
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none z-10">
+                            <svg class="h-5 w-5 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </div>
+                        {{ form.tiktok_username }}
+                    </div>
+                </div>
+
+                <!-- Note de confidentialité -->
+                <div class="bg-indigo-500/10 rounded-2xl p-3 border border-indigo-500/20">
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        En t'inscrivant, tu acceptes de recevoir les notifications via WhatsApp. Tes infos sont sécurisées.
+                    </p>
+                </div>
+
+                <!-- Bouton Submit -->
+                <button type="submit" 
+                        class="w-full flex items-center justify-center space-x-2 py-4 px-4 rounded-2xl text-base font-bold text-white bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-600 hover:to-pink-600 focus:outline-none focus:ring-4 focus:ring-indigo-500/50 transition-all duration-300 shadow-lg hover:shadow-xl transform active:scale-95 button-glow">
+                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span>Rejoindre la communauté</span>
+                </button>
+                
+                <!-- Texte sous le bouton -->
+                <p class="text-center text-xs text-gray-500 -mt-2">
+                    Inscription en 30 secondes • Résultats immédiats
+                </p>
+            </form>
+        </div>
+
+        <!-- Section avantages -->
+        <div class="space-y-3 mb-6">
+            <div class="bg-gray-900/60 backdrop-blur-lg rounded-2xl p-4 border border-gray-800 flex items-start gap-3">
+                <div class="flex-shrink-0 w-10 h-10 bg-indigo-500/20 rounded-xl flex items-center justify-center">
+                    <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-sm mb-1">Abonnements mutuels</h3>
+                    <p class="text-gray-400 text-xs">Tous les membres s'abonnent entre eux</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-900/60 backdrop-blur-lg rounded-2xl p-4 border border-gray-800 flex items-start gap-3">
+                <div class="flex-shrink-0 w-10 h-10 bg-pink-500/20 rounded-xl flex items-center justify-center">
+                    <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-sm mb-1">Boost des likes</h3>
+                    <p class="text-gray-400 text-xs">Engagement authentique sur tes vidéos</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-900/60 backdrop-blur-lg rounded-2xl p-4 border border-gray-800 flex items-start gap-3">
+                <div class="flex-shrink-0 w-10 h-10 bg-purple-500/20 rounded-xl flex items-center justify-center">
+                    <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-sm mb-1">Croissance rapide</h3>
+                    <p class="text-gray-400 text-xs">Visibilité accrue sur la plateforme</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center">
+            <p class="text-gray-600 text-xs">
+                © 2024 Communauté Booster • 100% Gratuit
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = document.querySelectorAll('.relative input');
+            inputs.forEach(input => {
+                input.classList.add(
+                    'w-full', 'py-3.5', 'pl-12', 'pr-4', 
+                    'bg-gray-800/50', 'backdrop-blur-sm',
+                    'border', 'border-gray-700', 'rounded-xl', 
+                    'focus:ring-2', 'focus:ring-indigo-500', 'focus:border-indigo-500',
+                    'focus:bg-gray-800/80',
+                    'text-base', 'text-white', 'placeholder-gray-500',
+                    'transition-all', 'duration-200'
+                );
+            });
+        });
+    </script>
+</body>
+</html>
