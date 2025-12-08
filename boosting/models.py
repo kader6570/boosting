@@ -22,4 +22,4 @@ class Inscription(models.Model):
     )
 
     def __str__(self):
-        return self.tiktok_username
+        return self.numero
