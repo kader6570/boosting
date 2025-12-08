@@ -21,7 +21,8 @@ class Inscription(models.Model):
         verbose_name="Compte tiktok",
         max_length=60,
         validators=[compte],
-        unique=True
+        unique=True,
+        required=False
     )
 
     def __str__(self):
