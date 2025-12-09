@@ -5,7 +5,7 @@ from . forms import FormInscription
 class Acceuil(generic.FormView):
     template_name = "index.html"
     form_class = FormInscription
-    success_url = "/"
+    success_url = "success"
 
     def form_valid(self, form):
         form.save()
